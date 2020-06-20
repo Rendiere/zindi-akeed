@@ -1,3 +1,4 @@
+from pathlib import Path
 from invoke import task
 
 
@@ -25,38 +26,33 @@ def notebook(ctx, ip='*', port=8888):
     ctx.run(' '.join(cmd))
 
 
-@task(help={
-    'search': 'search term'
-})
-def competition_list(ctx, search=None):
-    """
-    List Kaggle competitions
-    """
-    cmd = ['kaggle competitions list']
-    if search:
-        cmd = cmd + ['-s {}'.format(search)]
-    ctx.run(' '.join(cmd))
 
+@task()
+def check_data(ctx):
+    """
+    Check that all the data is downloaded
+    into the correct directory
+    """
+    pth = Path('data/raw')
 
-@task(help={
-    'competition': 'competition url prefix'
-})
-def competition_download_files(ctx, competition):
-    """
-    Download Kaggle competition files to ./data/raw folder
-    """
-    cmd = 'kaggle competitions download -c {} -p ./data/raw/'.format(competition)
-    ctx.run(cmd)
+    files = [str(f) for f in sorted(list(pth.glob('*')))]
 
+    correct_list = [
+    'data/raw/.gitkeep',
+    'data/raw/SampleSubmission.csv',
+    'data/raw/Variable Definitions.txt',
+    'data/raw/orders.csv',
+    'data/raw/test_customers.csv',
+    'data/raw/test_locations.csv',
+    'data/raw/train_customers.csv',
+    'data/raw/train_locations.csv',
+    'data/raw/vendors.csv'
+    ]
 
-@task(help={
-    'path': 'path to file to submit',
-    'message': 'message describing the submission',
-    'competition': 'competition url prefix'
-})
-def competition_submit_files(ctx, path, message, competition):
-    """
-    Submit Kaggle competition files
-    """
-    cmd = 'kaggle competitions submit', '-c {} -f {} -m {}'.format(competition, path, message)
-    ctx.run(cmd)
+    assert len(files) == len(correct_list), '''
+    The follwoing files files were missing: \n{}
+    '''.format(set(correct_list) - set(files))
+
+    for f1, f2 in zip(correct_list, files):
+        if f1 != f2:
+            raise FileNotFoundError('File {} missing!'.format(f1))
