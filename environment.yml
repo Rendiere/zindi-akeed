@@ -1,8 +1,8 @@
 name: zindi-akeed
 channels:
-  - anaconda
   - conda-forge
   - defaults
+  - anaconda
 dependencies:
   - pip
   - invoke
@@ -11,21 +11,18 @@ dependencies:
   - matplotlib
   - numpy
   - pandas
-  - pandas-profiling
   - path.py
   - python=3.7
   - scikit-learn
   - seaborn
   - statsmodels
+  - conda-forge::geopandas
+  - geoviews
   - pip:
-      - black
-      - keras
       - lightgbm
       - xgboost
       - catboost
       - mlxtend
       - eli5
       - missingno
-      - nbdime
       - hvplot
-      - pylint
