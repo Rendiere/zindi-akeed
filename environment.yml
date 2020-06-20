@@ -1,0 +1,30 @@
+name: zindi-akeed
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - invoke
+  - jupyter
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - pandas
+  - pandas-profiling
+  - path.py
+  - python=3.7
+  - scikit-learn
+  - seaborn
+  - statsmodels
+  - pip:
+      - black
+      - keras
+      - lightgbm
+      - xgboost
+      - catboost
+      - mlxtend
+      - eli5
+      - missingno
+      - nbdime
+      - hvplot
+      - pylint
