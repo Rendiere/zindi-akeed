@@ -18,6 +18,7 @@ dependencies:
   - statsmodels
   - conda-forge::geopandas
   - geoviews
+  - cartopy
   - pip:
       - lightgbm
       - xgboost
